@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Naruto Pixel Card Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav id="top-nav">
+        <button id="nav-combat" class="nav-button active">Combate</button>
+        <button id="nav-inventory" class="nav-button">Inventário</button>
+        <button id="nav-shop" class="nav-button">Loja</button>
+        <button id="nav-equipment" class="nav-button">Equipamentos</button>
+        <button id="nav-craft" class="nav-button">Craft Card</button>
+        <button id="nav-chests" class="nav-button">Baús</button>
+    </nav>
+
+    <div id="game-area" class="game-section active-section">
+        <!-- Conteúdo da área de combate -->
+        <div id="game-container">
+            <h1>Naruto Pixel Card Game</h1>
+            <div id="player-profile-display" style="grid-area: header; text-align: right; font-size: 12px; margin-bottom: 10px;">
+                 <span>Nível: <span id="player-level">1</span></span> |
+                 <span>XP: <span id="player-xp">0 / 100</span></span> |
+                 <span>Moedas: <span id="player-currency">0</span></span>
+            </div>
+
+            <!-- Nova Área de Status Centralizada -->
+            <div id="battle-status-container">
+                <div id="player-status-side" class="status-side">
+                    <h2>Jogador</h2>
+                    <div class="player-avatar">YOU</div>
+                    <div class="stats-display">
+                        <span>Vida: <span id="player-health">100</span> / <span id="player-max-health">100</span></span>
+                        <div class="health-bar"><div id="player-health-bar-fill"></div></div>
+                        <span>Chakra: <span id="player-chakra">50</span> / <span id="player-max-chakra">50</span></span>
+                        <div class="chakra-bar"><div id="player-chakra-bar-fill"></div></div>
+                        <div id="player-status-effects" class="status-effects"></div>
+                        <!-- Área para stats temporários (atk, def, etc.) -->
+                        <div id="player-temp-stats" class="temp-stats"></div>
+                    </div>
+                    <div id="player-hand" class="hand-area"><p>Mão Jogador</p></div>
+                </div>
+                <div id="opponent-status-side" class="status-side">
+                    <h2>Oponente</h2>
+                    <div class="player-avatar">OPP</div>
+                     <div class="stats-display">
+                        <span>Vida: <span id="opponent-health">100</span> / <span id="opponent-max-health">100</span></span>
+                        <div class="health-bar"><div id="opponent-health-bar-fill"></div></div>
+                        <span>Chakra: <span id="opponent-chakra">50</span> / <span id="opponent-max-chakra">50</span></span>
+                        <div class="chakra-bar"><div id="opponent-chakra-bar-fill"></div></div>
+                        <div id="opponent-status-effects" class="status-effects"></div>
+                        <!-- Área para stats temporários (atk, def, etc.) -->
+                        <div id="opponent-temp-stats" class="temp-stats"></div>
+                    </div>
+                    <div id="opponent-hand" class="hand-area"><p>Mão Oponente</p></div>
+                </div>
+            </div>
+
+            <!-- Área do Tabuleiro (Log, Turno) -->
+            <div id="game-board">
+                <p>Turno: <span id="turn-counter">1</span></p>
+                <div id="message-log" style="height: 60px; overflow-y: scroll; border: 1px solid #7f8c8d; background: rgba(0,0,0,0.2); font-size: 11px; text-align: left; padding: 5px; margin: 5px 0;">
+                    <p>Log da Batalha:</p>
+                </div>
+                <button id="clear-log-button" class="game-button" style="font-size: 10px; padding: 3px 8px; margin-bottom: 5px; background-color: #7f8c8d; border-color: #566573;">Limpar Log</button>
+                <button id="end-turn-button">Finalizar Turno</button>
+            </div>
+
+            <!-- Áreas de Campo Removidas -->
+
+        </div>
+    </div>
+
+    <div id="inventory-area" class="game-section">
+        <!-- Conteúdo do Inventário -->
+        <h2>Inventário</h2>
+        <p>Aqui você verá suas cartas e itens.</p>
+        <div id="inventory-display"></div>
+    </div>
+
+    <div id="shop-area" class="game-section">
+        <!-- Conteúdo da Loja -->
+        <h2>Loja</h2>
+        <div id="shop-container" style="display: flex; gap: 20px;">
+            <div id="shop-display" style="flex-grow: 1;">
+                <p>Compre novas cartas e itens aqui.</p>
+            </div>
+            <div id="cart-area" style="width: 250px; border-left: 1px solid #ccc; padding-left: 15px;">
+                <h3>Carrinho</h3>
+                <div id="cart-items"><p>Seu carrinho está vazio.</p></div>
+                <div id="cart-total" style="margin-top: 15px; font-weight: bold;">Total: 0 Moedas</div>
+                <button id="finalize-purchase-button" class="game-button" style="margin-top: 10px; width: 100%;">Finalizar Compra</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="equipment-area" class="game-section">
+        <!-- Conteúdo da aba Equipamentos -->
+        <h2>Equipamentos</h2>
+        <p>Gerencie seus equipamentos aqui.</p>
+        <!-- Conteúdo será gerado pelo JS -->
+    </div>
+
+    <div id="craft-area" class="game-section">
+        <!-- Conteúdo da aba Craft -->
+        <h2>Craft Card</h2>
+        <p>Crie novas cartas usando materiais.</p>
+        <!-- Conteúdo será gerado pelo JS -->
+    </div>
+
+    <div id="chests-area" class="game-section">
+        <!-- Conteúdo da aba Baús -->
+        <h2>Baús</h2>
+        <p>Abra seus baús aqui.</p>
+        <!-- Conteúdo será gerado pelo JS -->
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

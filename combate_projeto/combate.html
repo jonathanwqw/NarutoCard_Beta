@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Naruto Pixel Card Game - Combate</title>
+    <link rel="stylesheet" href="combate.css">
+</head>
+<body>
+    <div id="game-area" class="game-section active-section">
+        <!-- Conteúdo da área de combate -->
+        <div id="game-container">
+            <h1>Naruto Pixel Card Game - Módulo de Combate</h1>
+            <div id="player-profile-display" style="grid-area: header; text-align: right; font-size: 12px; margin-bottom: 10px;">
+                 <!-- Informações de perfil como Nível, XP, Moedas podem ser removidas ou simplificadas para o módulo de combate -->
+            </div>
+
+            <!-- Nova Área de Status Centralizada -->
+            <div id="battle-status-container">
+                <div id="player-status-side" class="status-side">
+                    <h2>Jogador</h2>
+                    <div class="player-avatar">YOU</div>
+                    <div class="stats-display">
+                        <div class="health-bar"><div id="player-health-bar-fill"></div></div>
+                        <div class="chakra-bar"><div id="player-chakra-bar-fill"></div></div>
+                        <div id="player-status-effects" class="status-effects"></div>
+                        <div id="player-temp-stats" class="temp-stats"></div>
+                    </div>
+                    <div id="player-hand" class="hand-area"><p>Mão Jogador</p></div>
+                </div>
+                <div id="opponent-status-side" class="status-side">
+                    <h2>Oponente</h2>
+                    <div class="player-avatar">OPP</div>
+                     <div class="stats-display">
+                        <div class="health-bar"><div id="opponent-health-bar-fill"></div></div>
+                        <div class="chakra-bar"><div id="opponent-chakra-bar-fill"></div></div>
+                        <div id="opponent-status-effects" class="status-effects"></div>
+                        <div id="opponent-temp-stats" class="temp-stats"></div>
+                    </div>
+                    <div id="opponent-hand" class="hand-area"><p>Mão Oponente</p></div>
+                </div>
+            </div>
+
+            <!-- Área do Tabuleiro (Log, Turno) -->
+            <div id="game-board">
+                <p>Turno: <span id="turn-counter">1</span></p>
+                <div id="message-log" style="height: 60px; overflow-y: scroll; border: 1px solid #7f8c8d; background: rgba(0,0,0,0.2); font-size: 11px; text-align: left; padding: 5px; margin: 5px 0;">
+                    <p>Log da Batalha:</p>
+                </div>
+                <button id="end-turn-button" class="game-button">Finalizar Turno</button>
+                <button id="restart-battle-button" class="game-button" style="margin-top: 10px;">Reiniciar Batalha</button>
+            </div>
+        </div>
+    </div>
+    <script src="combate.js"></script>
+</body>
+</html>

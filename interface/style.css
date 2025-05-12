@@ -1,0 +1,908 @@
+/* Estilos básicos para o Naruto Pixel Card Game */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Impede a rolagem da página inteira */
+    font-family: 'Courier New', Courier, monospace; /* Fonte monoespaçada para vibe pixel */
+    background-color: #2c3e50; /* Fundo escuro */
+    color: #ecf0f1; /* Texto claro */
+}
+
+body {
+    display: flex;
+    flex-direction: column; /* Organiza nav e conteúdo verticalmente */
+}
+
+/* --- Barra de Navegação Superior --- */
+#top-nav {
+    background-color: #1a2531; /* Cor mais escura para a barra */
+    padding: 5px 10px;
+    display: flex;
+    justify-content: center; /* Centraliza os botões */
+    gap: 10px;
+    border-bottom: 2px solid #e67e22; /* Borda laranja */
+    flex-shrink: 0; /* Impede que a barra encolha */
+}
+
+.nav-button {
+    padding: 8px 15px;
+    cursor: pointer;
+    background-color: #34495e;
+    color: #ecf0f1;
+    border: 1px solid #7f8c8d;
+    border-radius: 3px;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #4e6a85;
+}
+
+.nav-button.active {
+    background-color: #e67e22; /* Laranja para botão ativo */
+    color: #2c3e50;
+    border-color: #d35400;
+}
+
+/* --- Seções do Jogo (Combate, Inventário, Loja) --- */
+.game-section {
+    display: none; /* Esconde todas as seções por padrão */
+    flex-grow: 1; /* Faz a seção ativa ocupar o espaço restante */
+    overflow-y: auto; /* Permite rolagem DENTRO da seção ativa, se necessário */
+    padding: 10px;
+    background-color: #2c3e50; /* Mantém o fundo padrão */
+}
+
+.game-section.active-section {
+    display: flex; /* Mostra a seção ativa */
+    flex-direction: column; /* Organiza conteúdo da seção verticalmente */
+    align-items: center; /* Centraliza o container do jogo */
+}
+
+/* --- Container Principal do Jogo (Área de Combate - Atualizado) --- */
+#game-container {
+    background-color: #34495e; /* Container um pouco mais claro */
+    border: 2px solid #ecf0f1;
+    padding: 10px;
+    width: 100%;
+    max-width: 950px; /* Aumentado um pouco para a nova interface */
+    display: grid;
+    /* Atualizado grid-template-areas */
+    grid-template-areas:
+        "header header"
+        "battle-status battle-status"
+        "game-board game-board";
+    gap: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+}
+
+h1 {
+    grid-area: header;
+    text-align: center;
+    margin: 5px 0 10px 0;
+    font-size: 1.2em;
+    color: #e67e22;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #e67e22;
+    padding-bottom: 5px;
+}
+
+#player-profile-display {
+    grid-area: header;
+    justify-self: end;
+    align-self: start;
+    font-size: 11px;
+    margin-top: 8px;
+    margin-right: 5px;
+}
+
+/* --- Nova Área de Status Centralizada --- */
+#battle-status-container {
+    grid-area: battle-status;
+    display: flex; /* Coloca os lados lado a lado */
+    gap: 10px;
+    border: 1px dashed #7f8c8d;
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.status-side {
+    flex: 1; /* Cada lado ocupa metade do espaço disponível */
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid #566573;
+    border-radius: 5px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.status-side h2 {
+    font-size: 1.1em;
+    margin: 0 0 4px 0;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #7f8c8d;
+    text-align: center;
+}
+
+.player-avatar {
+    /* grid-area: player-avatar; */ /* Não mais necessário com flex */
+    width: 50px;
+    height: 50px;
+    background-color: #95a5a6;
+    border: 1px solid #ecf0f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 9px;
+    color: #2c3e50;
+    align-self: center; /* Centraliza o avatar */
+    border-radius: 50%; /* Avatar redondo */
+    margin-bottom: 5px;
+}
+
+.stats-display {
+    /* background-color: rgba(44, 62, 80, 0.8); */ /* Removido fundo extra */
+    padding: 6px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+}
+
+.stats-display span {
+    display: block;
+}
+
+/* Barras de Vida/Chakra */
+.health-bar, .chakra-bar {
+    height: 10px; /* Aumentado um pouco */
+    background-color: #555;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 2px;
+    border: 1px solid #444;
+}
+
+.health-bar > div {
+    height: 100%;
+    background-color: #e74c3c; /* Vermelho */
+    width: 100%;
+    transition: width 0.5s ease;
+    border-radius: 2px;
+}
+
+.chakra-bar > div {
+    height: 100%;
+    background-color: #3498db; /* Azul */
+    width: 100%;
+    transition: width 0.5s ease;
+    border-radius: 2px;
+}
+
+/* Status Effects e Temp Stats */
+.status-effects,
+.temp-stats {
+    margin-top: 6px;
+    font-size: 10px;
+    min-height: 15px; /* Espaço para ícones/texto */
+    border-top: 1px dashed #7f8c8d;
+    padding-top: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.temp-stats span {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 1px 4px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.status-effect-icon {
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-weight: bold;
+    border: 1px solid;
+}
+
+/* Cores para status effects */
+.effect-buff { background-color: #27ae60; color: white; border-color: #2ecc71; } /* Verde */
+.effect-debuff { background-color: #c0392b; color: white; border-color: #e74c3c; } /* Vermelho */
+.effect-dot { background-color: #8e44ad; color: white; border-color: #9b59b6; } /* Roxo */
+.effect-hot { background-color: #16a085; color: white; border-color: #1abc9c; } /* Verde-água */
+.effect-stun { background-color: #f39c12; color: #2c3e50; border-color: #f1c40f; } /* Amarelo */
+.effect-defense_percent { background-color: #2980b9; color: white; border-color: #3498db; } /* Azul */
+
+/* Mão do Jogador/Oponente (dentro do status-side) */
+.hand-area {
+    /* grid-area: hand-area; */ /* Não mais necessário */
+    border: 1px solid #7f8c8d;
+    min-height: 100px;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-top: auto; /* Empurra a mão para baixo */
+}
+
+.hand-area p {
+    width: 100%;
+    text-align: center;
+    font-size: 0.8em;
+    color: #95a5a6;
+    margin: 5px 0;
+}
+
+/* --- Área do Tabuleiro (Log, Turno) --- */
+#game-board {
+    grid-area: game-board;
+    text-align: center;
+    padding: 8px;
+    border-top: 1px solid #7f8c8d;
+    border-bottom: 1px solid #7f8c8d;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+}
+
+#game-board p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+#message-log {
+    height: 50px;
+    width: 95%;
+    overflow-y: scroll;
+    border: 1px solid #7f8c8d;
+    background: rgba(0,0,0,0.2);
+    font-size: 10px;
+    text-align: left;
+    padding: 4px;
+    margin: 5px 0;
+    border-radius: 3px;
+}
+
+#message-log p {
+    margin: 2px 0;
+}
+
+#message-log p:first-child {
+    margin-top: 0;
+    font-weight: bold;
+}
+
+/* --- Estilos Placeholder para Cartas --- */
+.card {
+    width: 65px;
+    height: 110px;
+    border: 1px solid black;
+    background-color: #bdc3c7;
+    display: flex;
+    flex-direction: column;
+    padding: 3px;
+    font-size: 8px;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+    color: #2c3e50;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex-shrink: 0;
+    border-radius: 4px; /* Bordas arredondadas */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 6px rgba(236, 240, 241, 0.7);
+}
+
+.card-name {
+    font-weight: bold;
+    font-size: 9px;
+    text-align: center;
+    padding: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-image-placeholder {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 4px 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+}
+
+.card-cost {
+    position: absolute;
+    top: 2px; /* Movido para cima */
+    right: 2px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 9px;
+    font-weight: bold;
+    border: 1px solid white;
+}
+
+.card-type {
+    font-size: 7px;
+    font-style: italic;
+    text-align: center;
+    padding: 1px;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.card-desc {
+    font-size: 7px;
+    margin-top: 2px;
+    line-height: 1.1;
+    height: 25px;
+    overflow-y: auto;
+}
+
+.card-stats {
+    display: flex;
+    justify-content: space-around;
+    font-size: 8px;
+    margin-top: 2px;
+    padding-top: 2px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Cores Placeholder por Tipo de Carta */
+.card.type-jutsu { background-color: #3498db; color: white; } /* Azul */
+.card.type-taijutsu { background-color: #e74c3c; color: white; } /* Vermelho */
+.card.type-defesa { background-color: #2ecc71; color: white; } /* Verde */
+.card.type-item { background-color: #f1c40f; color: #2c3e50; } /* Amarelo */
+.card.type-buff { background-color: #9b59b6; color: white; } /* Roxo */
+.card.type-debuff { background-color: #7f8c8d; color: white; } /* Cinza */
+.card.type-invocação { background-color: #e67e22; color: white; } /* Laranja */
+.card.type-armadura { background-color: #5d6d7e; color: white; } /* Cinza Azulado */
+.card.type-arma { background-color: #ae8a6f; color: white; } /* Marrom Claro */
+.card.type-modo { background-color: #d35400; color: white; } /* Laranja Escuro */
+.card.type-material { background-color: #b0a89e; color: #2c3e50; } /* Cinza Claro */
+
+/* Placeholder para Costas da Carta */
+.card-back {
+    background-color: #c0392b;
+    border: 1px solid black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: default;
+    border-radius: 4px;
+}
+
+.card-back:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* --- Media Queries --- */
+@media (min-width: 600px) {
+    h1 { font-size: 1.5em; }
+    #player-profile-display { font-size: 12px; }
+    .nav-button { font-size: 16px; padding: 10px 20px; }
+    .stats-display { font-size: 14px; padding: 8px; }
+    .player-avatar { width: 60px; height: 60px; font-size: 10px; }
+    .hand-area { min-height: 120px; }
+    #game-board { flex-direction: row; justify-content: space-between; align-items: center; padding: 10px; }
+    #message-log { height: 60px; width: auto; flex-grow: 1; margin: 0 10px; font-size: 11px; }
+    .card { width: 75px; height: 130px; padding: 4px; font-size: 9px; }
+    .card-name { font-size: 10px; }
+    .card-image-placeholder { font-size: 18px; }
+    .card-cost { width: 18px; height: 18px; font-size: 10px; }
+    .card-type { font-size: 8px; }
+    .card-desc { font-size: 8px; height: 30px; }
+    .card-stats { font-size: 9px; }
+    .health-bar, .chakra-bar { height: 12px; }
+    .status-effects, .temp-stats { font-size: 11px; min-height: 18px; }
+}
+
+@media (min-width: 900px) {
+    #game-container { padding: 15px; gap: 15px; }
+    h1 { font-size: 1.8em; }
+    .stats-display { padding: 10px; gap: 6px; }
+    .hand-area { min-height: 150px; }
+    .card { width: 80px; height: 140px; }
+}
+
+/* --- Estilos Gerais para Botões (Melhorados) --- */
+.game-button {
+    padding: 8px 15px;
+    cursor: pointer;
+    background-color: #e67e22; /* Laranja Naruto */
+    color: #2c3e50; /* Texto escuro */
+    border: 1px solid #d35400; /* Borda laranja mais escura */
+    border-radius: 4px;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.game-button:hover {
+    background-color: #f39c12; /* Laranja mais claro no hover */
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.game-button:active {
+    transform: translateY(0px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.game-button:disabled {
+    background-color: #95a5a6; /* Cinza para desabilitado */
+    color: #ecf0f1;
+    border-color: #7f8c8d;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Botão Finalizar Turno */
+#end-turn-button {
+    /* Herda de .game-button mas com cor diferente */
+    background-color: #e74c3c; /* Vermelho */
+    color: white;
+    border-color: #c0392b; /* Vermelho escuro */
+}
+
+#end-turn-button:hover {
+    background-color: #c0392b; /* Vermelho escuro no hover */
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+#end-turn-button:disabled {
+    background-color: #95a5a6;
+    color: #ecf0f1;
+    border-color: #7f8c8d;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Botão Reiniciar */
+#game-board .restart-button {
+    margin-top: 10px;
+}
+
+/* --- Estilos Inventário, Loja, Equip, Craft, Baús (Mantidos) --- */
+#inventory-area h2, #shop-area h2, #equipment-area h2, #craft-area h2, #chests-area h2 {
+    color: #e67e22;
+    text-align: center;
+    border-bottom: 1px solid #e67e22;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    width: 100%;
+    max-width: 900px;
+}
+
+#inventory-display, #shop-display, #equipment-content, #craft-content, #chests-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.inventory-category {
+    width: 100%;
+    border: 1px solid #4e6a85;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: rgba(0,0,0,0.1);
+}
+
+.inventory-category h3 {
+    background-color: #4e6a85;
+    color: #ecf0f1;
+    padding: 5px 10px;
+    margin: 0;
+    border-radius: 5px 5px 0 0;
+    font-size: 1.1em;
+}
+
+.inventory-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px;
+    justify-content: center;
+}
+
+.card-quantity {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 9px;
+    padding: 1px 3px;
+    border-radius: 2px;
+}
+
+#shop-container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 950px;
+}
+
+#shop-display {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-content: flex-start; /* Alinha itens no topo */
+}
+
+.shop-item {
+    border: 1px solid #7f8c8d;
+    background-color: #34495e;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.shop-item .card {
+    margin-bottom: 8px;
+}
+
+.shop-item-price {
+    font-weight: bold;
+    color: #f1c40f; /* Amarelo para preço */
+    margin-bottom: 8px;
+}
+
+.shop-item .buy-button {
+    padding: 6px 12px;
+    font-size: 12px;
+    width: 90%;
+}
+
+#cart-area {
+    width: 250px;
+    border-left: 1px solid #7f8c8d;
+    padding-left: 15px;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 5px;
+    padding: 10px;
+    flex-shrink: 0;
+}
+
+#cart-area h3 {
+    margin-top: 0;
+    text-align: center;
+    color: #e67e22;
+    border-bottom: 1px solid #7f8c8d;
+    padding-bottom: 5px;
+}
+
+#cart-items {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    padding-right: 5px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+    border-bottom: 1px dashed #566573;
+    font-size: 12px;
+}
+
+.cart-item span:last-child {
+    font-weight: bold;
+    color: #f1c40f;
+}
+
+.remove-cart-item-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    line-height: 16px;
+    cursor: pointer;
+    margin-left: 5px;
+    padding: 0;
+}
+
+#cart-total {
+    margin-top: 15px;
+    font-weight: bold;
+    text-align: right;
+    font-size: 14px;
+    border-top: 1px solid #7f8c8d;
+    padding-top: 5px;
+}
+
+#finalize-purchase-button {
+    margin-top: 10px;
+    width: 100%;
+}
+
+#shop-currency {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #f1c40f;
+    font-size: 14px;
+}
+
+/* Equipamentos */
+#equipment-content {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+}
+
+#equipment-slots {
+    border: 1px solid #7f8c8d;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(0,0,0,0.1);
+    width: 250px;
+    flex-shrink: 0;
+}
+
+#equipment-slots h4 {
+    margin-top: 0;
+    text-align: center;
+    color: #e67e22;
+    border-bottom: 1px solid #7f8c8d;
+    padding-bottom: 5px;
+}
+
+.equipment-slot-display {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #566573;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.equipment-slot-display b {
+    min-width: 80px; /* Alinha os nomes dos slots */
+}
+
+.equipment-slot-display .card {
+    width: 50px;
+    height: 80px;
+    font-size: 6px;
+    cursor: pointer;
+}
+
+#equipment-inventory {
+    border: 1px solid #7f8c8d;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(0,0,0,0.1);
+    flex-grow: 1;
+}
+
+#equipment-inventory h4 {
+    margin-top: 0;
+    text-align: center;
+    color: #e67e22;
+    border-bottom: 1px solid #7f8c8d;
+    padding-bottom: 5px;
+}
+
+#equipment-inventory > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+#equipment-inventory .card {
+    width: 60px;
+    height: 100px;
+    cursor: pointer;
+}
+
+/* Crafting e Baús */
+.crafting-recipe, .chest-item {
+    border: 1px solid #7f8c8d;
+    background-color: #34495e;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    width: 200px;
+}
+
+.crafting-recipe h4, .chest-item h4 {
+    margin-top: 0;
+    color: #e67e22;
+}
+
+#player-materials {
+    width: 100%;
+    margin-top: 20px;
+    border-top: 1px solid #7f8c8d;
+    padding-top: 10px;
+}
+
+#player-materials h4 {
+    text-align: center;
+    color: #e67e22;
+}
+
+#player-materials ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+#player-materials li {
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+/* Remover estilos antigos não mais necessários */
+/* #opponent-area, #player-area { ... } */ /* A estrutura mudou */
+/* .field-area { display: none; } */ /* Removido do HTML */
+/* .player-info { ... } */ /* Estilos agora dentro de .stats-display */
+
+
+
+
+
+/* --- Adições para Melhorias de UI/UX --- */
+
+/* Microanimações em Cartas */
+.card:hover {
+    transform: scale(1.08) translateY(-3px); /* Aumenta um pouco mais e levanta */
+    box-shadow: 0 4px 12px rgba(236, 240, 241, 0.8), 0 0 5px #e67e22; /* Sombra mais pronunciada e brilho laranja */
+    z-index: 10; /* Garante que a carta em hover fique por cima */
+}
+
+/* Microanimações em Botões de Navegação */
+.nav-button:hover {
+    background-color: #4e6a85;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.nav-button:active {
+    transform: translateY(0px);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.nav-button.active:hover {
+    background-color: #f39c12; /* Laranja mais claro no hover do ativo */
+    transform: translateY(-2px);
+}
+
+/* Microanimações em Botões Gerais do Jogo */
+.game-button:hover {
+    background-color: #f39c12; /* Laranja mais claro no hover */
+    transform: translateY(-2px); /* Leve levantamento */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.game-button:active {
+    transform: translateY(0px); /* Volta à posição original ao clicar */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Efeito para o botão Finalizar Turno (já tem hover, pode ser ajustado se necessário) */
+#end-turn-button:hover {
+    background-color: #c0392b; /* Vermelho escuro no hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#end-turn-button:active {
+    transform: translateY(0px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Fim das Adições para Melhorias de UI/UX --- */
+
+
+
+
+/* Tooltip Customizado */
+.custom-tooltip {
+    position: absolute;
+    background-color: #1a2531; /* Fundo escuro, similar à nav */
+    color: #ecf0f1; /* Texto claro */
+    border: 1px solid #e67e22; /* Borda laranja */
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: 'Courier New', Courier, monospace;
+    z-index: 1000; /* Para ficar sobre outros elementos */
+    pointer-events: none; /* Para não interferir com o mouse no elemento abaixo */
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    transform: scale(0.95) translateY(5px);
+    max-width: 250px; /* Largura máxima para não ficar muito extenso */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.custom-tooltip.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+.custom-tooltip h4 {
+    margin: 0 0 5px 0;
+    color: #e67e22;
+    font-size: 13px;
+    border-bottom: 1px solid #7f8c8d;
+    padding-bottom: 3px;
+}
+
+.custom-tooltip p {
+    margin: 3px 0;
+    line-height: 1.3;
+}
+
+.custom-tooltip .tooltip-cost {
+    font-weight: bold;
+    color: #f1c40f; /* Amarelo para custo, como na loja */
+}
+
+.custom-tooltip .tooltip-stats span {
+    display: block;
+    margin-top: 2px;
+    font-size: 11px;
+}
+

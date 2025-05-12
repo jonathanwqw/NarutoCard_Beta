@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Naruto Pixel Card Game - Combate</title>
+    <link rel="stylesheet" href="combate.css">
+</head>
+<body>
+    <div id="game-area" class="game-section active-section">
+        <div id="game-container">
+            <h1>Naruto Pixel Card Game - Módulo de Combate</h1>
+            
+            <div id="battle-status-container"> 
+                <!-- Coluna do Jogador -->
+                <div id="player-status-side" class="status-side">
+                    <h2>Jogador</h2>
+                    
+                    <div class="stats-display">
+                        <div class="bar-container health-bar" data-label="Vida">
+                            <div id="player-health-bar-fill" class="bar-fill"></div>
+                        </div>
+                        <div id="player-health-feedback" class="feedback-container"></div>
+                        
+                        <div class="bar-container chakra-bar" data-label="Chakra">
+                            <div id="player-chakra-bar-fill" class="bar-fill"></div>
+                        </div>
+                        <div id="player-chakra-feedback" class="feedback-container"></div>
+
+                        <div class="bar-container defense-bar" data-label="Defesa">
+                            <div id="player-defense-bar-fill" class="bar-fill"></div>
+                        </div>
+                        <div id="player-defense-feedback" class="feedback-container"></div>
+
+                        <div id="player-status-effects" class="status-effects"></div>
+                        <div id="player-temp-stats" class="temp-stats"></div>
+                    </div>
+                    <div class="hand-controls">
+                        <button class="scroll-arrow left-arrow" data-target="player-hand">&lt;</button>
+                        <div id="player-hand" class="hand-area"><p>Mão Jogador</p></div>
+                        <button class="scroll-arrow right-arrow" data-target="player-hand">&gt;</button>
+                    </div>
+                </div>
+
+                <!-- Coluna do Oponente -->
+                <div id="opponent-status-side" class="status-side">
+                    <h2>Oponente</h2>
+                    
+                     <div class="stats-display">
+                        <div class="bar-container health-bar" data-label="Vida">
+                            <div id="opponent-health-bar-fill" class="bar-fill"></div>
+                        </div>
+                        <div id="opponent-health-feedback" class="feedback-container"></div>
+
+                        <div class="bar-container chakra-bar" data-label="Chakra">
+                            <div id="opponent-chakra-bar-fill" class="bar-fill"></div>
+                        </div>
+                        <div id="opponent-chakra-feedback" class="feedback-container"></div>
+
+                        <div class="bar-container defense-bar" data-label="Defesa">
+                            <div id="opponent-defense-bar-fill" class="bar-fill"></div>
+                        </div>
+                        <div id="opponent-defense-feedback" class="feedback-container"></div>
+
+                        <div id="opponent-status-effects" class="status-effects"></div>
+                        <div id="opponent-temp-stats" class="temp-stats"></div>
+                    </div>
+                    <div class="hand-controls">
+                        <button class="scroll-arrow left-arrow" data-target="opponent-hand">&lt;</button>
+                        <div id="opponent-hand" class="hand-area"><p>Mão Oponente</p></div>
+                        <button class="scroll-arrow right-arrow" data-target="opponent-hand">&gt;</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="game-board">
+                <p>Turno: <span id="turn-counter">1</span></p>
+                <div id="message-log">Log da Batalha:</div>
+                <button id="end-turn-button" class="game-button">Finalizar Turno</button>
+                <button id="restart-battle-button" class="game-button">Reiniciar Batalha</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="battle-results-screen" class="battle-results-screen-hidden">
+        <div id="battle-results-content">
+            <h3 id="rival-name-display">Rival: --</h3>
+            <h2 id="battle-result-title">Resultado da Batalha</h2>
+            <div class="result-section">
+                <p>Troféus: <span id="result-trophies">--</span></p>
+                <p>Moedas: <span id="result-coins">--</span></p>
+            </div>
+            <div class="result-section">
+                <p>Tempo de Jogo: <span id="result-time">--:--</span></p>
+                <p>Estrelas: <span id="result-stars">☆☆☆</span></p>
+            </div>
+            <div class="results-buttons-container">
+                <button id="close-results-button" class="game-button">Continuar</button>
+                <button id="next-level-button" class="game-button">Próximo Nível</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="combate.js"></script>
+</body>
+</html>

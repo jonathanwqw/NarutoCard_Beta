@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lançamento do Jogo - Novidades Épicas!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a2e; /* Azul escuro espacial */
+            color: #e0e0e0; /* Cinza claro */
+            line-height: 1.6;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(45deg, #f02d7d, #ff6b6b); /* Gradiente neon rosa/vermelho */
+            color: #fff;
+            padding: 1.5rem 0;
+            text-align: center;
+            border-bottom: 5px solid #00ffff; /* Ciano neon */
+        }
+        header h1 {
+            margin: 0;
+            font-family: 'Press Start 2P', cursive; /* Fonte pixelada gamer */
+            font-size: 2.2rem;
+            text-shadow: 3px 3px 0px #000;
+        }
+        .announcement {
+            padding: 25px;
+            margin-bottom: 30px;
+            background: rgba(40, 40, 70, 0.8); /* Azul escuro semi-transparente */
+            border-left: 7px solid #00ffff; /* Ciano neon */
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+        .announcement h2 {
+            font-family: 'Press Start 2P', cursive;
+            color: #ff6b6b; /* Vermelho neon */
+            font-size: 1.5rem;
+        }
+        .sections {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-around;
+        }
+        .section {
+            background: rgba(50, 50, 80, 0.9); /* Roxo escuro semi-transparente */
+            padding: 25px;
+            border: 2px solid #f02d7d; /* Rosa neon */
+            border-radius: 10px;
+            flex-basis: calc(33.333% - 40px);
+            box-sizing: border-box;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,255,255,0.15) 0%, rgba(0,255,255,0) 70%);
+            transform: rotate(45deg);
+            transition: opacity 0.5s ease;
+            opacity: 0;
+            z-index: 0;
+        }
+        .section:hover::before {
+            opacity: 1;
+        }
+        .section:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(240, 45, 125, 0.5); /* Sombra rosa neon */
+        }
+        .section h2 {
+            font-family: 'Press Start 2P', cursive;
+            color: #00ffff; /* Ciano neon */
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        .section p {
+            font-size: 0.95rem;
+            color: #c0c0c0; /* Cinza mais claro */
+            min-height: 100px; /* Para alinhar os botões */
+        }
+        .section .icon {
+            font-size: 3rem; /* Ajuste conforme os ícones que usar */
+            margin-bottom: 15px;
+            color: #ff6b6b; /* Vermelho neon */
+            /* Exemplo com Unicode: Substitua por SVGs ou Font Awesome se preferir */
+        }
+        .section a {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #00ffff, #00aaff); /* Gradiente ciano/azul */
+            color: #1a1a2e; 
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 10px rgba(0,255,255,0.4);
+        }
+        .section a:hover {
+            background: linear-gradient(45deg, #00aaff, #00ffff);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0,255,255,0.7);
+        }
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+            background: rgba(40, 40, 70, 0.8);
+            color: #00ffff; /* Ciano neon */
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            border-top: 3px solid #f02d7d;
+        }
+        @media (max-width: 992px) {
+            .section {
+                flex-basis: calc(50% - 30px);
+            }
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            .sections {
+                flex-direction: column;
+            }
+            .section {
+                flex-basis: 100%;
+                margin-bottom: 20px; 
+            }
+            .section p {
+                min-height: auto; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Novidades Épicas do Lançamento!</h1>
+    </header>
+
+    <div class="container">
+        <div class="announcement">
+            <h2>Atenção, Heróis e Heroínas!</h2>
+            <p>A contagem regressiva para o grande dia 10 foi pausada... mas a aventura NÃO PARA! Um pequeno ajuste de rota foi necessário, mas para manter a chama da batalha acesa, estou liberando <strong>BETAS EXCLUSIVAS</strong> recheadas de ação!</p>
+            <p>Seu feedback será a arma mais poderosa para forjar a versão final. Preparados para me ajudar a criar uma lenda!</p>
+            <p>Fiquem de olho</p>
+        </div>
+
+        <div class="sections">
+            <div class="section" id="full-game-preview">
+                <div class="icon">🎮</div> 
+                <h2>Explorando o Arsenal Completo</h2>
+                <p>Mergulhe nos detalhes do que te espera! Visuais da interface, a complexidade do sistema de inventário, o brilho dos baús de tesouro, a variedade de equipamentos e ferramentas, as misteriosas caixas de itens e as lojas repletas de artefatos poderosos!</p>
+                <a href="#">Ver Detalhes</a> 
+            </div>
+
+            <div class="section" id="old-version-access">
+                <div class="icon">🕹️</div> 
+                <h2>Modo Clássico: A Origem</h2>
+                <p>Reviva ou descubra a estrutura de combate que deu início a tudo. Uma relíquia para os veteranos e uma aula de história para os novatos. Compare as táticas e veja a evolução!</p>
+                <a href="#">Jogar Versão Interface +</a>
+            </div>
+
+            <div class="section" id="combat-beta-v2">
+                <div class="icon">⚔️</div> 
+                <h2>Arena Experimental: Combate v2.0</h2>
+                <p>Entre na arena de testes e experimente um sistema de combate alternativo! Novas mecânicas, habilidades surpreendentes e estratégias inéditas estão em avaliação. Seu desempenho definirá o futuro da batalha!</p>
+                <a href="#">Testar Combate v2</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Narutocard. Level Máximo nos Direitos Reservados.</p>
+    </footer>
+</body>
+</html>
